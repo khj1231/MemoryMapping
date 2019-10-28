@@ -8,3 +8,12 @@ F:\WPF test\Test1027\Test1027\obj\Debug\Test1027.exe
 F:\WPF test\Test1027\Test1027\obj\Debug\Test1027.pdb
 F:\WPF test\Test1027\Test1027\obj\Debug\Test1027.csprojAssemblyReference.cache
 F:\WPF test\Test1027\Test1027\obj\Debug\Test1027.csproj.CoreCompileInputs.cache
+D:\work\Github\MemoryMapping\Test1027\Test1027\bin\Debug\Test1027.exe.config
+D:\work\Github\MemoryMapping\Test1027\Test1027\bin\Debug\Test1027.exe
+D:\work\Github\MemoryMapping\Test1027\Test1027\bin\Debug\Test1027.pdb
+D:\work\Github\MemoryMapping\Test1027\Test1027\obj\Debug\Test1027.Form1.resources
+D:\work\Github\MemoryMapping\Test1027\Test1027\obj\Debug\Test1027.Properties.Resources.resources
+D:\work\Github\MemoryMapping\Test1027\Test1027\obj\Debug\Test1027.csproj.GenerateResource.cache
+D:\work\Github\MemoryMapping\Test1027\Test1027\obj\Debug\Test1027.csproj.CoreCompileInputs.cache
+D:\work\Github\MemoryMapping\Test1027\Test1027\obj\Debug\Test1027.exe
+D:\work\Github\MemoryMapping\Test1027\Test1027\obj\Debug\Test1027.pdb

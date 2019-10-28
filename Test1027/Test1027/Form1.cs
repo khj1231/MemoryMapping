@@ -29,7 +29,8 @@ namespace Test1027
         {
             BeginInvoke(new Action(() =>
             {
-                label2.Text = "0x"  + Convert.ToString(e.Location.Y / 3, 16).PadLeft(2, '0') + "" + Convert.ToString(e.Location.X / 3, 16).PadLeft(2, '0') ;
+                label2.Text = "0x" + Convert.ToString(e.Location.Y / 3, 16).PadLeft(2, '0') +
+                               Convert.ToString(e.Location.X / 3, 16).PadLeft(2, '0');
             }));
         }
 
@@ -41,10 +42,33 @@ namespace Test1027
             }
             else if (e.Button == MouseButtons.Right)
             {
-                dictionary.Remove(dictionary.Find(newlocation => e.Location.X / 3 == newlocation.Location_x && e.Location.Y / 3 == newlocation.Location_y));
+                if (e.Location.Y + e.Location.X != 0 && e.Location.Y / 3 + e.Location.X / 3 != 255 + 255)
+                    dictionary.Remove(dictionary.Find(newlocation => e.Location.X / 3 == newlocation.Location_x
+                                      && e.Location.Y / 3 == newlocation.Location_y));
             }
             refresh();
+        }
+        void sort()
+        {
+            dictionary = (from index in dictionary
+                          orderby index.Location_y * 256 * 3 + index.Location_x ascending
+                          select index).ToList();
+            for (int i = 1; i < dictionary.Count; ++i)
+            {
+                dictionary[i].Location_len = ((dictionary[i].Location_y - dictionary[i - 1].Location_y) * 256 +
+                                               dictionary[i].Location_x - dictionary[i - 1].Location_x) * 4;
+            }
+            dictionary[dictionary.Count - 1].Location_len += 4;
+        }
 
+        private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+                if (dataGridView1.Rows.Count > 0 && e.RowIndex > 0 && e.RowIndex < dataGridView1.Rows.Count - 2)
+                {
+                    dictionary.RemoveAt(e.RowIndex);
+                    refresh();
+                }
         }
 
         void refresh()
@@ -52,27 +76,13 @@ namespace Test1027
             sort();
             pictureBox1.Refresh();
             dataGridView1.Rows.Clear();
-            for (int i = 0; i < dictionary.Count(); i++)
+            for (int i = 0; i < dictionary.Count(); ++i)
             {
-                if (i > 0)
-                    graphics.FillRectangle(myBrush, new Rectangle(dictionary[i].Location_x *3, dictionary[i].Location_y * 3, 3, 3));
-                dataGridView1.Rows.Add("0x" +  Convert.ToString(dictionary[i].Location_y, 16).PadLeft(2, '0') +
-                    "" + Convert.ToString(dictionary[i].Location_x, 16).PadLeft(2, '0'), dictionary[i].Location_len, (float)dictionary[i].Location_len/1024);
-               // graphics.DrawLine(pen, dictionary[i - 1].Location_x * 3, dictionary[i - 1].Location_y * 3, dictionary[i].Location_x * 3, dictionary[i].Location_y * 3);
+                graphics.FillRectangle(myBrush, new Rectangle(dictionary[i].Location_x * 3, dictionary[i].Location_y * 3, 3, 3));
+                dataGridView1.Rows.Add("0x" + Convert.ToString(dictionary[i].Location_y, 16).PadLeft(2, '0') +
+                                         Convert.ToString(dictionary[i].Location_x, 16).PadLeft(2, '0'),
+                                         dictionary[i].Location_len, (float)dictionary[i].Location_len / 1024);
             }
-            //dataGridView1.DataSource;
-        }
-
-        void sort()
-        {
-            dictionary = (from index in dictionary
-                          orderby index.Location_y * 256 * 3 + index.Location_x ascending
-                          select index).ToList();
-            for(int i = 1; i < dictionary.Count; ++i)
-            {
-                    dictionary[i].Location_len = ((dictionary[i].Location_y - dictionary[i - 1].Location_y) * 256 + dictionary[i].Location_x - dictionary[i - 1].Location_x) * 4;
-            }
-            dictionary[dictionary.Count - 1].Location_len += 4;
         }
 
         public class MyLocation
@@ -91,15 +101,5 @@ namespace Test1027
             }
         }
 
-        private void dataGridView1_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
-                if (dataGridView1.Rows.Count > 0 && e.RowIndex > 0 && e.RowIndex < dataGridView1.Rows.Count -2)
-                {
-                    dictionary.RemoveAt(e.RowIndex);
-                    //dictionary.Remove(dictionary.Find(newlocation => Convert.ToInt32(dataGridView1[0,e.RowIndex].Value) == newlocation.Location_x && Convert.ToInt32(dataGridView1[1, e.RowIndex].Value) == newlocation.Location_y));
-                    refresh();
-                }
-        }
     }
 }
